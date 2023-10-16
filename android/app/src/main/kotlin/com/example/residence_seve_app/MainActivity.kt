@@ -1,0 +1,6 @@
+package com.example.residence_seve_app
+
+import io.flutter.embedding.android.FlutterActivity
+
+class MainActivity: FlutterActivity() {
+}
