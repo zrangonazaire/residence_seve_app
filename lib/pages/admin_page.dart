@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:developer';
+import 'dart:math';
 
 import 'package:davi/davi.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -16,6 +16,7 @@ import 'package:residence_seve_app/blocs/images/images_event.dart';
 import 'package:residence_seve_app/blocs/images/images_state.dart';
 import 'package:residence_seve_app/components/save_categorie_widget.dart';
 import 'package:residence_seve_app/components/save_prix_par_categorie.dart';
+import 'package:residence_seve_app/constants.dart';
 
 import '../blocs/appartement_bloc.dart';
 import '../blocs/appartement_event.dart';
@@ -28,26 +29,13 @@ class AdminPage extends StatefulWidget {
 }
 
 List<PlatformFile>? _paths;
-List _isHovering = [
-  false,
-  false,
-  false,
-  false,
-  false,
-  false,
-  false,
-  false,
-  false,
-  false,
-  false,
-  false,
-  false
-];
 
 class _AdminPageState extends State<AdminPage> {
-  int selected_inx = 0;
+  int indexColors = -1;
+  int selectedIndex = -1;
   int idBien = 0;
   PlatformFile? objFile;
+  bool isSelected = false;
   void chooseFileUsingFilePicker() async {
     try {
       if (kIsWeb == true) {
@@ -55,14 +43,12 @@ class _AdminPageState extends State<AdminPage> {
                 type: FileType.custom,
                 allowMultiple: false,
                 onFileLoading: (FilePickerStatus status) =>
-                    log(" THE STATUS IS $status"),
+                    print(" THE STATUS IS $status"),
                 allowedExtensions: ['png', 'jpg', 'jpeg', 'heic']))
             ?.files;
       }
     } on PlatformException catch (e) {
-      log('Unsupported operation $e');
     } catch (e) {
-      log(e.toString());
     }
     setState(() {
       if (_paths != null) {
@@ -80,167 +66,18 @@ class _AdminPageState extends State<AdminPage> {
         .read<AppartementBloc>()
         .add(ListeAppartementMeubleEvent(idAgence: 1));
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size(screenSize.width, 600),
-        child: Container(
-          decoration: const BoxDecoration(
-              color: Colors.black,
-              border:
-                  Border(bottom: BorderSide(width: 1, color: Colors.white))),
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Row(
-              children: [
-                Text(
-                  'LES RESIDENCES SEVE',
-                  style: TextStyle(color: Colors.grey.shade400),
-                ),
-                Expanded(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      InkWell(
-                        onTap: () {},
-                        child: const Text(
-                          'Discover',
-                          style: TextStyle(color: Colors.black),
-                        ),
-                      ),
-                      SizedBox(width: screenSize.width / 20),
-                      InkWell(
-                        onTap: () {},
-                        child: const Text(
-                          'Contact Us',
-                          style: TextStyle(color: Colors.black),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //       builder: (context) => const AdminPage()),
-                    // );
-                  },
-                  child: const Text(
-                    'Admin',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-                SizedBox(
-                  width: screenSize.width / 50,
-                ),
-                InkWell(
-                  onTap: () {},
-                  onHover: (value) {
-                    setState(() {
-                      value ? _isHovering[0] = true : _isHovering[0] = false;
-                    });
-                  },
-                  child: Container(
-                    width: 100,
-                    height: 30,
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Colors.white, width: 0.4),
-                        color: _isHovering[0] ? Colors.red : Colors.black),
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.calendar_month,
-                          color: Colors.white,
-                          size: 14,
-                        ),
-                        SizedBox(
-                          width: 2,
-                        ),
-                        Text(
-                          "RÉSERVER",
-                          style: TextStyle(color: Colors.white, fontSize: 12),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: screenSize.width / 50,
-                ),
-                Row(
-                  children: [
-                    InkWell(
-                      onHover: (value) {
-                        setState(() {
-                          value
-                              ? _isHovering[1] = true
-                              : _isHovering[1] = false;
-                        });
-                      },
-                      onTap: () {},
-                      child: Icon(
-                        Icons.facebook,
-                        size: 30,
-                        color: _isHovering[1] ? Colors.red : Colors.white,
-                      ),
-                    ),
-                    InkWell(
-                      onHover: (value) {
-                        setState(() {
-                          value
-                              ? _isHovering[2] = true
-                              : _isHovering[2] = false;
-                        });
-                      },
-                      onTap: () {},
-                      child: Icon(Icons.mail,
-                          size: 30,
-                          color: _isHovering[2] ? Colors.red : Colors.white),
-                    ),
-                    InkWell(
-                      onHover: (value) {
-                        setState(() {
-                          value
-                              ? _isHovering[3] = true
-                              : _isHovering[3] = false;
-                        });
-                      },
-                      onTap: () {},
-                      child: Icon(
-                        Icons.location_on,
-                        size: 30,
-                        color: _isHovering[3] ? Colors.red : Colors.white,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
+      appBar: const MenuWidget(),
       body: DefaultTabController(
         length: 3,
         child: Scaffold(
           appBar: AppBar(
-            bottom: const TabBar(tabs: [
-              Tab(
-                icon: Icon(
-                  Icons.house,
-                  color: Colors.black,
-                ),
-                text: "Résidence Meublée",
-              ),
-              Tab(
-                icon: Icon(Icons.category),
-                text: "Catégories",
-              ),
-              Tab(
-                icon: Icon(Icons.price_check),
-                text: "Prix Par Catégorie",
-              )
-            ]),
+            bottom: const TabBar(
+              tabs: [
+                Text("Appartemens"),
+                Text("Categorie"),
+                Text("Prix par Catégorie")
+              ],
+            ),
           ),
           body: TabBarView(children: [
             SingleChildScrollView(
@@ -249,7 +86,7 @@ class _AdminPageState extends State<AdminPage> {
                 children: [
                   Container(
                     width: screenSize.width,
-                    height: screenSize.height * 0.4,
+                    height: 100,
                     color: Colors.white,
                     child: BlocBuilder<AppartementBloc, AppartementState>(
                         builder: (context, state) {
@@ -266,29 +103,53 @@ class _AdminPageState extends State<AdminPage> {
 
                         return appats.isEmpty
                             ? const Text("Pas de données")
-                            : DaviTheme(
-                                data: const DaviThemeData(
-                                    row: RowThemeData(
-                                        cursorOnTapGesturesOnly: false)),
-                                child: Davi<dynamic>(
-                                    rowColor: _rowColor,
-                                    DaviModel(rows: appats, columns: [
-                                      DaviColumn(
-                                        name: "Label",
-                                        grow: 1.5,
-                                        stringValue: (data) =>
-                                            data['nomCompletBienImmobilier'],
+                            : ListView.separated(
+                                scrollDirection: Axis.horizontal,
+                                padding: const EdgeInsets.all(20),
+                                itemCount: appats.length,
+                                itemBuilder: (context, index) {
+                                  return InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        indexColors = index;
+                                        idBien = appats[index]['id'];
+                                           context.read<ListeImagesBloc>().add(
+                                            ListImagesParAppartementEvent(
+                                                idBien: idBien));
+                                      });
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                            width: indexColors == index ? 3 : 1,
+                                            color: indexColors == index
+                                                ? Colors.red
+                                                : Colors.black),
+                                        borderRadius: BorderRadius.circular(12),
+                                        color: Colors.primaries[Random()
+                                            .nextInt(Colors.primaries.length)],
                                       ),
-                                      DaviColumn(
-                                        name: "Status",
-                                        stringValue: (data) {
-                                          data['occupied'] == true
-                                              ? data = "Occupé"
-                                              : data = "Libre";
-                                          return data;
-                                        },
+                                      width: (screenSize.width > 800)
+                                          ? screenSize.width * 0.3
+                                          : screenSize.width * 0.7,
+                                      child: Column(
+                                        children: [
+                                          Text("${appats[index]['id']}"),
+                                          Text(
+                                            "${appats[index]['nomBaptiserBienImmobilier']}"
+                                                .toUpperCase(),
+                                          ),
+                                        ],
                                       ),
-                                    ])),
+                                    ),
+                                  );
+                                },
+                                separatorBuilder:
+                                    (BuildContext context, int index) {
+                                  return const SizedBox(
+                                    width: 10,
+                                  );
+                                },
                               );
                       }
                       return const Text("Erreur inconnue");
@@ -364,14 +225,12 @@ class _AdminPageState extends State<AdminPage> {
                                                       height: 10,
                                                     ),
                                                     Text("Choisir une image",
-                                                        style:
-                                                            TextStyle(
-                                                                color:
-                                                                    Colors.blue,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .normal,
-                                                                fontSize: 16)),
+                                                        style: TextStyle(
+                                                            color: Colors.blue,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .normal,
+                                                            fontSize: 16)),
                                                   ],
                                                 )),
                                               ),
@@ -474,6 +333,7 @@ class _AdminPageState extends State<AdminPage> {
                                       );
                                     } else if (state is SaveImageLoadedState) {
                                       if (state.code == 200) {
+
                                         context.read<ListeImagesBloc>().add(
                                             ListImagesParAppartementEvent(
                                                 idBien: idBien));
@@ -494,7 +354,7 @@ class _AdminPageState extends State<AdminPage> {
                               builder: (context, state) {
                             if (state is ListImagesParAppartementInitialState) {
                               return const Center(
-                                child: CircularProgressIndicator(),
+                                child: Text("En attente de donées"),
                               );
                             } else if (state
                                 is ListImagesParAppartementErreurState) {
@@ -504,7 +364,7 @@ class _AdminPageState extends State<AdminPage> {
                             } else if (state
                                 is ListImagesParAppartementLoadedState) {
                               var images = state.imagesparAppartements;
-
+                              //print(images);
                               return MasonryGridView.builder(
                                   itemCount: images.length,
                                   gridDelegate:
@@ -519,14 +379,13 @@ class _AdminPageState extends State<AdminPage> {
                                               image: DecorationImage(
                                                   fit: BoxFit.cover,
                                                   image: images[index]
-                                                              .imageData!
+                                                                  ['imageData']
                                                               .isNotEmpty &&
                                                           images.isNotEmpty
                                                       ? MemoryImage(
-                                                          base64Decode(
-                                                              images[index]
-                                                                  .imageData!
-                                                                  .first))
+                                                          base64Decode(images[
+                                                                      index]
+                                                                  ['imageData']))
                                                       : const AssetImage(
                                                               'assets/images/noimage.png')
                                                           as ImageProvider)),
@@ -553,6 +412,17 @@ class _AdminPageState extends State<AdminPage> {
     );
   }
 
+  List<dynamic> selectedUsers = [];
+  onSelectedRow(bool selected, dynamic user) async {
+    //setState(() {
+    if (selected) {
+      selectedUsers.add(user);
+    } else {
+      selectedUsers.remove(user);
+    }
+    // });
+  }
+
   Color? _rowColor(DaviRow<dynamic> row) {
     var couleur = row.data['occupied']!;
 
@@ -563,5 +433,3 @@ class _AdminPageState extends State<AdminPage> {
     }
   }
 }
-
-

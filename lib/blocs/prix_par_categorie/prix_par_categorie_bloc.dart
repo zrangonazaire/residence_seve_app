@@ -12,7 +12,6 @@ class SavePrixParCategorieBloc extends Bloc<PrixParCategorieEvent,PrixParCategor
    
       try {
         var pc=await seveSwagger.gestimowebApiV1PrixparcategorieSaveOrUpDatePrixParCategoriePost(body: event.prixParCategorieChambreDto);
-   print("THE PRIX PAR CATEGORIE IS $pc");
       emit(SavePrixParCategorieLoadedState(prixParCategorieChambreDto: prixParCategorieChambreDto));
       } catch (e) {
         emit(SavePrixParCategorieErrorState(errorMessage: e.toString()));

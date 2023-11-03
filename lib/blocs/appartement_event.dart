@@ -1,6 +1,6 @@
-import 'package:flutter/widgets.dart';
+//import 'package:flutter/material.dart';
 
-@immutable
+
 abstract class AppartementEvent {}
 
 class ListeAppartementEvent extends AppartementEvent {
@@ -13,8 +13,9 @@ class ListeAppartementMeubleEvent extends AppartementEvent {
   ListeAppartementMeubleEvent({required this.idAgence});
 }
 
+// ignore: must_be_immutable
 class ListImagesParAppartementEvent extends AppartementEvent {
-  final int idBien;
+   int idBien;
   ListImagesParAppartementEvent({required this.idBien});
 }
 

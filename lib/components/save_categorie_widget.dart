@@ -23,6 +23,8 @@ class _SaveCategorieChambreWidgetState
   final descController = TextEditingController();
   final prixController = TextEditingController();
   final nameController = TextEditingController();
+  final nbrDiffJourController = TextEditingController();
+  final pourcentReducController = TextEditingController();
   @override
   void initState() {
     context.read<FindAllCategorieBloc>().add(FindAllCategorieEvent());
@@ -31,6 +33,7 @@ class _SaveCategorieChambreWidgetState
 
   @override
   Widget build(BuildContext context) {
+    Size size=MediaQuery.of(context).size;
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,9 +49,12 @@ class _SaveCategorieChambreWidgetState
                   showDialog(
                       context: context,
                       builder: (ctx) => AlertFormSaveCategorieWidget(
-                          nameController: nameController,
-                          descController: descController,
-                          prixController: prixController));
+                            nameController: nameController,
+                            descController: descController,
+                            prixController: prixController,
+                            nbrDiffJourController: nbrDiffJourController,
+                            pourcentReducController: pourcentReducController,
+                          ));
                 },
                 child: const Text(
                   "Nouveau +",
@@ -56,10 +62,10 @@ class _SaveCategorieChambreWidgetState
                 )),
           ),
         ),
-        Container(
+        SizedBox(
           height: 400,
-          width: 500,
-          color: Colors.yellow,
+          width: size.width,
+         
           child: BlocBuilder<FindAllCategorieBloc, CategorieState>(
               builder: (context, state) {
             //   print("Ths find State is $state");
@@ -95,6 +101,14 @@ class _SaveCategorieChambreWidgetState
                             stringValue: (data) => data['description']),
                         DaviColumn(
                             name: "Prix", doubleValue: (data) => data['price']),
+                              DaviColumn(
+                         //   grow: 1.5,
+                            name: "Nombre de jours",
+                            intValue: (data) => data['nbrDiffJour']),
+                              DaviColumn(
+                            grow: 1.5,
+                            name: "Pourcentage de réduction",
+                            doubleValue: (data) => data['pourcentReduc']),
                       ])),
                     );
             }
@@ -122,12 +136,15 @@ class AlertFormSaveCategorieWidget extends StatelessWidget {
     required this.nameController,
     required this.descController,
     required this.prixController,
+    required this.nbrDiffJourController,
+    required this.pourcentReducController,
   }) : super(key: key);
 
   final TextEditingController nameController;
   final TextEditingController descController;
   final TextEditingController prixController;
-
+  final TextEditingController nbrDiffJourController;
+  final TextEditingController pourcentReducController;
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -144,9 +161,9 @@ class AlertFormSaveCategorieWidget extends StatelessWidget {
                     color: Colors.grey.shade800,
                   ),
                 ),
-                const SizedBox(height: 20.0),
+                const SizedBox(height: 10.0),
                 // SocialBtn(),
-                
+
                 Column(
                   children: [
                     TextFormField(
@@ -156,7 +173,7 @@ class AlertFormSaveCategorieWidget extends StatelessWidget {
                           labelText: "Entrer le nom de la catégorie"),
                       keyboardType: TextInputType.name,
                     ),
-                    const SizedBox(height: 10.0),
+                    const SizedBox(height: 1.0),
                     TextFormField(
                       controller: descController,
                       maxLines: 3,
@@ -165,12 +182,30 @@ class AlertFormSaveCategorieWidget extends StatelessWidget {
                           labelText: "Description"),
                       keyboardType: TextInputType.text,
                     ),
-                    const SizedBox(height: 10.0),
+                    const SizedBox(height: 1.0),
                     TextFormField(
                       controller: prixController,
                       decoration: const InputDecoration(
                           border: UnderlineInputBorder(),
                           labelText: "Entrer le prix"),
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    ),
+                     const SizedBox(height: 1.0),
+                    TextFormField(
+                      controller: nbrDiffJourController,
+                      decoration: const InputDecoration(
+                          border: UnderlineInputBorder(),
+                          labelText: "Nombre de jour correspondant"),
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    ),
+                     const SizedBox(height: 1.0),
+                    TextFormField(
+                      controller: pourcentReducController,
+                      decoration: const InputDecoration(
+                          border: UnderlineInputBorder(),
+                          labelText: "Pourcentage de reduction correspondant"),
                       keyboardType: TextInputType.number,
                       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     ),
@@ -189,6 +224,8 @@ class AlertFormSaveCategorieWidget extends StatelessWidget {
                                               id: 0,
                                               idCreateur: 2,
                                               idAgence: 1,
+                                              pourcentReduc: double.tryParse(pourcentReducController.text),
+                                              nbrDiffJour: int.tryParse(nbrDiffJourController.text),
                                               price: double.tryParse(
                                                   prixController.text),
                                               description: descController.text,

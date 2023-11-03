@@ -4,16 +4,18 @@ import 'package:residence_seve_app/blocs/reservation/reservation_state.dart';
 import 'package:residence_seve_app/generated/client_index.dart';
 import 'package:residence_seve_app/generated/swagger.swagger.dart';
 
-class SaveReservationBloc extends Bloc<ReservationEvent,ReservationState>{
-  SaveReservationBloc():super(SaveReservationInitState()){
-    Swagger seveSwagger=Swagger.create();
-    on((SaveReservationEvent event, emit) async{
+class SaveReservationBloc extends Bloc<ReservationEvent, ReservationState> {
+  SaveReservationBloc() : super(SaveReservationInitState()) {
+    Swagger seveSwagger = Swagger.create();
+    on((SaveReservationEvent event, emit) async {
       emit(SaveReservationInitState());
       try {
-        var reservationAfficheDto=seveSwagger.gestimowebApiV1ReservationSaveorupdatereservationPost(body: event.reservationRequestDto);
-   //var   reservationAfficheDtoEmit=json.decode(reservationAfficheDto.);
-      print("The reservation back is : $reservationAfficheDto");
-      emit(SaveReservationLoaded(reservationAfficheDto: reservationAfficheDto));
+        var reservationAfficheDto = await seveSwagger
+            .gestimowebApiV1ReservationSaveorupdatereservationPost(
+                body: event.reservationRequestDto);
+       
+        emit(SaveReservationLoaded(
+            reservationAfficheDto: reservationAfficheDto));
       } catch (e) {
         emit(SaveReservationErrorState(errorMessage: e.toString()));
       }

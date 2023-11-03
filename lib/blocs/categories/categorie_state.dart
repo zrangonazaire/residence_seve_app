@@ -1,3 +1,4 @@
+import 'package:chopper/chopper.dart';
 import 'package:flutter/material.dart';
 
 @immutable
@@ -10,8 +11,9 @@ class SaveCategorieErrorState extends CategorieState {
   SaveCategorieErrorState({required this.errorMessage});
 }
 
+// ignore: must_be_immutable
 class SaveCategorieLoadedState extends CategorieState {
-  final bool categorieList;
+  Response<dynamic> categorieList;
   SaveCategorieLoadedState({required this.categorieList});
 }
 

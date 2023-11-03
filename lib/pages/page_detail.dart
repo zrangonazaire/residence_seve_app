@@ -7,7 +7,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:residence_seve_app/components/image_carousel_widget.dart';
 import 'package:residence_seve_app/constants.dart';
-import 'package:residence_seve_app/pages/admin_page.dart';
 import 'package:residence_seve_app/pages/page_reservation.dart';
 
 import '../blocs/appartement_bloc.dart';

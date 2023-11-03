@@ -162,6 +162,11 @@ AppartementDto _$AppartementDtoFromJson(Map<String, dynamic> json) =>
       description: json['description'] as String?,
       superficieBien: (json['superficieBien'] as num?)?.toDouble(),
       bienMeublerResidence: json['bienMeublerResidence'] as bool?,
+      nameCategorie: json['nameCategorie'] as String?,
+      priceCategorie: (json['priceCategorie'] as num?)?.toDouble(),
+      nbrDiffJourCategorie: json['nbrDiffJourCategorie'] as int?,
+      pourcentReducCategorie:
+          (json['pourcentReducCategorie'] as num?)?.toDouble(),
       occupied: json['occupied'] as bool?,
     );
 
@@ -183,6 +188,10 @@ Map<String, dynamic> _$AppartementDtoToJson(AppartementDto instance) =>
       'description': instance.description,
       'superficieBien': instance.superficieBien,
       'bienMeublerResidence': instance.bienMeublerResidence,
+      'nameCategorie': instance.nameCategorie,
+      'priceCategorie': instance.priceCategorie,
+      'nbrDiffJourCategorie': instance.nbrDiffJourCategorie,
+      'pourcentReducCategorie': instance.pourcentReducCategorie,
       'occupied': instance.occupied,
     };
 
@@ -881,6 +890,8 @@ CategoryChambreSaveOrUpdateDto _$CategoryChambreSaveOrUpdateDtoFromJson(
       description: json['description'] as String,
       name: json['name'] as String,
       price: (json['price'] as num?)?.toDouble(),
+      nbrDiffJour: json['nbrDiffJour'] as int?,
+      pourcentReduc: (json['pourcentReduc'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$CategoryChambreSaveOrUpdateDtoToJson(
@@ -892,6 +903,8 @@ Map<String, dynamic> _$CategoryChambreSaveOrUpdateDtoToJson(
       'description': instance.description,
       'name': instance.name,
       'price': instance.price,
+      'nbrDiffJour': instance.nbrDiffJour,
+      'pourcentReduc': instance.pourcentReduc,
     };
 
 Chapitre _$ChapitreFromJson(Map<String, dynamic> json) => Chapitre(
@@ -1374,7 +1387,7 @@ Map<String, dynamic> _$ImmeubleEtageDtoToJson(ImmeubleEtageDto instance) =>
       'garrage': instance.garrage,
     };
 
-InputStream _$InputStreamFromJson(Map<String, dynamic> json) => InputStream();
+InputStream _$InputStreamFromJson(Map<String, dynamic> json) => const InputStream();
 
 Map<String, dynamic> _$InputStreamToJson(InputStream instance) =>
     <String, dynamic>{};
@@ -1627,8 +1640,8 @@ MultipartFile _$MultipartFileFromJson(Map<String, dynamic> json) =>
       inputStream: json['inputStream'] == null
           ? null
           : InputStream.fromJson(json['inputStream'] as Map<String, dynamic>),
-      contentType: json['contentType'] as String?,
       originalFilename: json['originalFilename'] as String?,
+      contentType: json['contentType'] as String?,
     );
 
 Map<String, dynamic> _$MultipartFileToJson(MultipartFile instance) =>
@@ -1638,8 +1651,8 @@ Map<String, dynamic> _$MultipartFileToJson(MultipartFile instance) =>
       'empty': instance.empty,
       'size': instance.size,
       'inputStream': instance.inputStream?.toJson(),
-      'contentType': instance.contentType,
       'originalFilename': instance.originalFilename,
+      'contentType': instance.contentType,
     };
 
 Operation _$OperationFromJson(Map<String, dynamic> json) => Operation(
@@ -1946,6 +1959,11 @@ ReservationAfficheDto _$ReservationAfficheDtoFromJson(
       id: json['id'] as int?,
       idAgence: json['idAgence'] as int?,
       idCreateur: json['idCreateur'] as int?,
+      creationDate: json['creationDate'] as int?,
+      lastModifiedDate: json['lastModifiedDate'] as int?,
+      email: json['email'] as String?,
+      mobile: json['mobile'] as String?,
+      username: json['username'] as String?,
       idAppartementdDto: json['idAppartementdDto'] as int?,
       dateDebut: json['dateDebut'] == null
           ? null
@@ -1971,6 +1989,12 @@ ReservationAfficheDto _$ReservationAfficheDtoFromJson(
       nmbreHomme: json['nmbreHomme'] as int?,
       nmbreFemme: json['nmbreFemme'] as int?,
       nmbrEnfant: json['nmbrEnfant'] as int?,
+      descriptionCategori: json['descriptionCategori'] as String?,
+      nameCategori: json['nameCategori'] as String?,
+      priceCategori: (json['priceCategori'] as num?)?.toDouble(),
+      nbrDiffJourCategori: json['nbrDiffJourCategori'] as int?,
+      pourcentReducCategori:
+          (json['pourcentReducCategori'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$ReservationAfficheDtoToJson(
@@ -1979,6 +2003,11 @@ Map<String, dynamic> _$ReservationAfficheDtoToJson(
       'id': instance.id,
       'idAgence': instance.idAgence,
       'idCreateur': instance.idCreateur,
+      'creationDate': instance.creationDate,
+      'lastModifiedDate': instance.lastModifiedDate,
+      'email': instance.email,
+      'mobile': instance.mobile,
+      'username': instance.username,
       'idAppartementdDto': instance.idAppartementdDto,
       'dateDebut': _dateToJson(instance.dateDebut),
       'dateFin': _dateToJson(instance.dateFin),
@@ -2000,6 +2029,11 @@ Map<String, dynamic> _$ReservationAfficheDtoToJson(
       'nmbreHomme': instance.nmbreHomme,
       'nmbreFemme': instance.nmbreFemme,
       'nmbrEnfant': instance.nmbrEnfant,
+      'descriptionCategori': instance.descriptionCategori,
+      'nameCategori': instance.nameCategori,
+      'priceCategori': instance.priceCategori,
+      'nbrDiffJourCategori': instance.nbrDiffJourCategori,
+      'pourcentReducCategori': instance.pourcentReducCategori,
     };
 
 ReservationRequestDto _$ReservationRequestDtoFromJson(

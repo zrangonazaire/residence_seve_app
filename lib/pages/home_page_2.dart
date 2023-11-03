@@ -1,4 +1,3 @@
-import 'package:adaptive_navbar/adaptive_navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:residence_seve_app/components/list_home_image_widget.dart';
 import 'package:residence_seve_app/constants.dart';

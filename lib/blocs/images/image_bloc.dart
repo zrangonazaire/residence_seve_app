@@ -12,6 +12,7 @@ class ImageBloc extends Bloc<ImagesEvent,ImagesState> {
     final seveSwagger = Swagger.create();
     on((SaveImageEvent event, emit) async{
       emit(SaveImageinitialState());
+     // print('object ${event.idBien}');
          try {
       final request = http.MultipartRequest(
           "POST",

@@ -31,12 +31,13 @@ class _SavePrixParCategorieWidgetState
 
   @override
   void initState() {
-    context.read<FindAllCategorieBloc>().add(FindAllCategorieEvent());
+   
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+     context.read<FindAllCategorieBloc>().add(FindAllCategorieEvent());
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -81,7 +82,7 @@ class _SavePrixParCategorieWidgetState
                                             BlocBuilder<FindAllCategorieBloc,
                                                     CategorieState>(
                                                 builder: (context, state) {
-                                              //   print("Ths find State is $state");
+                                                
                                               if (state
                                                   is FindAllCategorieInitialState) {
                                                 return const Center(
@@ -99,13 +100,11 @@ class _SavePrixParCategorieWidgetState
                                                 );
                                               } else if (state
                                                   is FindAllCategorieLoadedState) {
+                                                    
                                                 var allCat =
                                                     state.categorieList;
-                                                // if (allCat.isNotEmpty) {
-                                                //   print(
-                                                //       "THE CATEGORIE IS $allCat");
-                                                // }
-                                                // print("THE DATA IS ${allCat[0]['description']}");
+                                            
+                                               
                                                 return DropdownButton(
                                                     isExpanded: true,
                                                     icon: const Icon(
@@ -117,13 +116,13 @@ class _SavePrixParCategorieWidgetState
                                                         value:
                                                             e, // Set the value of the item
                                                         child: Text(
-                                                            "${e['name']} ${e['price']}"),
+                                                            "${e['name']}"),
                                                       );
                                                     }).toList(),
                                                     onChanged: (dynamic e) {
                                                       setState(() {
                                                         nameController.text =
-                                                            "${e['name']} ${e['price']}";
+                                                            "${e['name']} ";
                                                         prixController.text =
                                                             "${e['price']}";
                                                         idCatController.text =
@@ -134,7 +133,7 @@ class _SavePrixParCategorieWidgetState
                                                     });
                                               }
                                               return const Text(
-                                                  "Erreur inatendue");
+                                                  "Erreur test");
                                             }),
                                           ],
                                         ),
@@ -170,15 +169,21 @@ class _SavePrixParCategorieWidgetState
                                       ),
                                       const SizedBox(height: 10.0),
                                         TextFormField(
-                                          onChanged: (value){
-                                            nombreDeJourController.text=value;
-                                            intervalPrixController.text=value;
-                                            nbrDiffJourController.text=value;
-                                          },
+                                         
                                         controller: nombreDeJourController,
                                         decoration: const InputDecoration(
+                                          hintText: '0-5 jours',
                                             border: UnderlineInputBorder(),
-                                            labelText: "Entrer le nombre de jours"),
+                                            labelText: "Nombre de jours en lettre"),
+                                       
+                                      ),
+                                      const SizedBox(height: 10.0),
+                                        TextFormField(
+                                         
+                                        controller: nbrDiffJourController,
+                                        decoration: const InputDecoration(
+                                            border: UnderlineInputBorder(),
+                                            labelText: "Différences entre les nombres de jours"),
                                         keyboardType: TextInputType.number,
                                         inputFormatters: [
                                           FilteringTextInputFormatter.digitsOnly
@@ -189,7 +194,7 @@ class _SavePrixParCategorieWidgetState
                                         controller: prixController,
                                         decoration: const InputDecoration(
                                             border: UnderlineInputBorder(),
-                                            labelText: "Entrer le prix"),
+                                            labelText: "Entrer le Montant"),
                                         keyboardType: TextInputType.number,
                                         inputFormatters: [
                                           FilteringTextInputFormatter.digitsOnly
@@ -219,11 +224,10 @@ class _SavePrixParCategorieWidgetState
                                                                 description:
                                                                     descController
                                                                         .text,
-                                                                nbrDiffJour:int.tryParse(nombreDeJourController
+                                                                nbrDiffJour:int.tryParse(nbrDiffJourController
                                                                         .text),
-                                                                         nombreDeJour:"${nombreDeJourController
-                                                                        .text} Jours",
-                                                                         intervalPrix:int.tryParse(nombreDeJourController
+                                                                         nombreDeJour:nombreDeJourController.text,
+                                                                         intervalPrix:int.tryParse(prixController
                                                                         .text)
                                                                     )));
                                               },

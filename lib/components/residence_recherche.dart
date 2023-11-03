@@ -28,7 +28,7 @@ class ResidenceRecherche extends StatelessWidget {
                       BoxShadow(
                           color: Colors.grey.shade300,
                           blurRadius: 4,
-                          offset: Offset(0, 3))
+                          offset: const Offset(0, 3))
                     ]),
                 padding: const EdgeInsets.only(left: 5),
                 child: const TextField(

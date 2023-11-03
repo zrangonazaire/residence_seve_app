@@ -9,7 +9,6 @@ import 'package:chopper/chopper.dart';
 import 'client_mapping.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
-import 'package:http/http.dart' show MultipartFile;
 import 'package:chopper/chopper.dart' as chopper;
 import 'swagger.enums.swagger.dart' as enums;
 export 'swagger.enums.swagger.dart';
@@ -41,7 +40,7 @@ abstract class Swagger extends ChopperService {
         interceptors: interceptors ?? [],
         client: httpClient,
         authenticator: authenticator,
-        baseUrl: baseUrl ?? Uri.parse('http://localhost:8282/'));
+        baseUrl: baseUrl ?? Uri.parse('http://185.124.203.69:8282/'));
     return _$Swagger(newClient);
   }
 
@@ -2819,18 +2818,18 @@ abstract class Swagger extends ChopperService {
       {@Body() Object? body});
 
   ///
-  Future<chopper.Response<List<ReservationSaveOrUpdateDto>>>
-      gestimowebApiV1ReservationAllGet() {
-    generatedMapping.putIfAbsent(ReservationSaveOrUpdateDto,
-        () => ReservationSaveOrUpdateDto.fromJsonFactory);
+  Future<chopper.Response<List<ReservationAfficheDto>>>
+      gestimowebApiV1ReservationAllreservationGet() {
+    generatedMapping.putIfAbsent(
+        ReservationAfficheDto, () => ReservationAfficheDto.fromJsonFactory);
 
-    return _gestimowebApiV1ReservationAllGet();
+    return _gestimowebApiV1ReservationAllreservationGet();
   }
 
   ///
-  @Get(path: 'gestimoweb/api/v1/reservation/all')
-  Future<chopper.Response<List<ReservationSaveOrUpdateDto>>>
-      _gestimowebApiV1ReservationAllGet();
+  @Get(path: 'gestimoweb/api/v1/reservation/allreservation')
+  Future<chopper.Response<List<ReservationAfficheDto>>>
+      _gestimowebApiV1ReservationAllreservationGet();
 
   ///
   ///@param id
@@ -4355,6 +4354,10 @@ class AppartementDto {
     this.description,
     this.superficieBien,
     this.bienMeublerResidence,
+    this.nameCategorie,
+    this.priceCategorie,
+    this.nbrDiffJourCategorie,
+    this.pourcentReducCategorie,
     this.occupied,
   });
 
@@ -4396,6 +4399,14 @@ class AppartementDto {
   final double? superficieBien;
   @JsonKey(name: 'bienMeublerResidence')
   final bool? bienMeublerResidence;
+  @JsonKey(name: 'nameCategorie')
+  final String? nameCategorie;
+  @JsonKey(name: 'priceCategorie')
+  final double? priceCategorie;
+  @JsonKey(name: 'nbrDiffJourCategorie')
+  final int? nbrDiffJourCategorie;
+  @JsonKey(name: 'pourcentReducCategorie')
+  final double? pourcentReducCategorie;
   @JsonKey(name: 'occupied')
   final bool? occupied;
   static const fromJsonFactory = _$AppartementDtoFromJson;
@@ -4435,13 +4446,11 @@ class AppartementDto {
             (identical(other.codeAbrvBienImmobilier, codeAbrvBienImmobilier) ||
                 const DeepCollectionEquality().equals(
                     other.codeAbrvBienImmobilier, codeAbrvBienImmobilier)) &&
-            (identical(
-                    other.nomCompletBienImmobilier, nomCompletBienImmobilier) ||
+            (identical(other.nomCompletBienImmobilier, nomCompletBienImmobilier) ||
                 const DeepCollectionEquality().equals(
                     other.nomCompletBienImmobilier,
                     nomCompletBienImmobilier)) &&
-            (identical(other.nomBaptiserBienImmobilier,
-                    nomBaptiserBienImmobilier) ||
+            (identical(other.nomBaptiserBienImmobilier, nomBaptiserBienImmobilier) ||
                 const DeepCollectionEquality().equals(
                     other.nomBaptiserBienImmobilier,
                     nomBaptiserBienImmobilier)) &&
@@ -4454,8 +4463,16 @@ class AppartementDto {
             (identical(other.bienMeublerResidence, bienMeublerResidence) ||
                 const DeepCollectionEquality().equals(
                     other.bienMeublerResidence, bienMeublerResidence)) &&
-            (identical(other.occupied, occupied) ||
-                const DeepCollectionEquality().equals(other.occupied, occupied)));
+            (identical(other.nameCategorie, nameCategorie) ||
+                const DeepCollectionEquality()
+                    .equals(other.nameCategorie, nameCategorie)) &&
+            (identical(other.priceCategorie, priceCategorie) ||
+                const DeepCollectionEquality()
+                    .equals(other.priceCategorie, priceCategorie)) &&
+            (identical(other.nbrDiffJourCategorie, nbrDiffJourCategorie) ||
+                const DeepCollectionEquality().equals(other.nbrDiffJourCategorie, nbrDiffJourCategorie)) &&
+            (identical(other.pourcentReducCategorie, pourcentReducCategorie) || const DeepCollectionEquality().equals(other.pourcentReducCategorie, pourcentReducCategorie)) &&
+            (identical(other.occupied, occupied) || const DeepCollectionEquality().equals(other.occupied, occupied)));
   }
 
   @override
@@ -4479,6 +4496,10 @@ class AppartementDto {
       const DeepCollectionEquality().hash(description) ^
       const DeepCollectionEquality().hash(superficieBien) ^
       const DeepCollectionEquality().hash(bienMeublerResidence) ^
+      const DeepCollectionEquality().hash(nameCategorie) ^
+      const DeepCollectionEquality().hash(priceCategorie) ^
+      const DeepCollectionEquality().hash(nbrDiffJourCategorie) ^
+      const DeepCollectionEquality().hash(pourcentReducCategorie) ^
       const DeepCollectionEquality().hash(occupied) ^
       runtimeType.hashCode;
 }
@@ -4501,6 +4522,10 @@ extension $AppartementDtoExtension on AppartementDto {
       String? description,
       double? superficieBien,
       bool? bienMeublerResidence,
+      String? nameCategorie,
+      double? priceCategorie,
+      int? nbrDiffJourCategorie,
+      double? pourcentReducCategorie,
       bool? occupied}) {
     return AppartementDto(
         id: id ?? this.id,
@@ -4522,6 +4547,11 @@ extension $AppartementDtoExtension on AppartementDto {
         description: description ?? this.description,
         superficieBien: superficieBien ?? this.superficieBien,
         bienMeublerResidence: bienMeublerResidence ?? this.bienMeublerResidence,
+        nameCategorie: nameCategorie ?? this.nameCategorie,
+        priceCategorie: priceCategorie ?? this.priceCategorie,
+        nbrDiffJourCategorie: nbrDiffJourCategorie ?? this.nbrDiffJourCategorie,
+        pourcentReducCategorie:
+            pourcentReducCategorie ?? this.pourcentReducCategorie,
         occupied: occupied ?? this.occupied);
   }
 
@@ -4542,6 +4572,10 @@ extension $AppartementDtoExtension on AppartementDto {
       Wrapped<String?>? description,
       Wrapped<double?>? superficieBien,
       Wrapped<bool?>? bienMeublerResidence,
+      Wrapped<String?>? nameCategorie,
+      Wrapped<double?>? priceCategorie,
+      Wrapped<int?>? nbrDiffJourCategorie,
+      Wrapped<double?>? pourcentReducCategorie,
       Wrapped<bool?>? occupied}) {
     return AppartementDto(
         id: (id != null ? id.value : this.id),
@@ -4581,6 +4615,17 @@ extension $AppartementDtoExtension on AppartementDto {
         bienMeublerResidence: (bienMeublerResidence != null
             ? bienMeublerResidence.value
             : this.bienMeublerResidence),
+        nameCategorie:
+            (nameCategorie != null ? nameCategorie.value : this.nameCategorie),
+        priceCategorie: (priceCategorie != null
+            ? priceCategorie.value
+            : this.priceCategorie),
+        nbrDiffJourCategorie: (nbrDiffJourCategorie != null
+            ? nbrDiffJourCategorie.value
+            : this.nbrDiffJourCategorie),
+        pourcentReducCategorie: (pourcentReducCategorie != null
+            ? pourcentReducCategorie.value
+            : this.pourcentReducCategorie),
         occupied: (occupied != null ? occupied.value : this.occupied));
   }
 }
@@ -7928,6 +7973,8 @@ class CategoryChambreSaveOrUpdateDto {
     required this.description,
     required this.name,
     this.price,
+    this.nbrDiffJour,
+    this.pourcentReduc,
   });
 
   factory CategoryChambreSaveOrUpdateDto.fromJson(Map<String, dynamic> json) =>
@@ -7948,6 +7995,10 @@ class CategoryChambreSaveOrUpdateDto {
   final String name;
   @JsonKey(name: 'price')
   final double? price;
+  @JsonKey(name: 'nbrDiffJour')
+  final int? nbrDiffJour;
+  @JsonKey(name: 'pourcentReduc')
+  final double? pourcentReduc;
   static const fromJsonFactory = _$CategoryChambreSaveOrUpdateDtoFromJson;
 
   @override
@@ -7968,7 +8019,13 @@ class CategoryChambreSaveOrUpdateDto {
             (identical(other.name, name) ||
                 const DeepCollectionEquality().equals(other.name, name)) &&
             (identical(other.price, price) ||
-                const DeepCollectionEquality().equals(other.price, price)));
+                const DeepCollectionEquality().equals(other.price, price)) &&
+            (identical(other.nbrDiffJour, nbrDiffJour) ||
+                const DeepCollectionEquality()
+                    .equals(other.nbrDiffJour, nbrDiffJour)) &&
+            (identical(other.pourcentReduc, pourcentReduc) ||
+                const DeepCollectionEquality()
+                    .equals(other.pourcentReduc, pourcentReduc)));
   }
 
   @override
@@ -7982,6 +8039,8 @@ class CategoryChambreSaveOrUpdateDto {
       const DeepCollectionEquality().hash(description) ^
       const DeepCollectionEquality().hash(name) ^
       const DeepCollectionEquality().hash(price) ^
+      const DeepCollectionEquality().hash(nbrDiffJour) ^
+      const DeepCollectionEquality().hash(pourcentReduc) ^
       runtimeType.hashCode;
 }
 
@@ -7993,14 +8052,18 @@ extension $CategoryChambreSaveOrUpdateDtoExtension
       int? idCreateur,
       String? description,
       String? name,
-      double? price}) {
+      double? price,
+      int? nbrDiffJour,
+      double? pourcentReduc}) {
     return CategoryChambreSaveOrUpdateDto(
         id: id ?? this.id,
         idAgence: idAgence ?? this.idAgence,
         idCreateur: idCreateur ?? this.idCreateur,
         description: description ?? this.description,
         name: name ?? this.name,
-        price: price ?? this.price);
+        price: price ?? this.price,
+        nbrDiffJour: nbrDiffJour ?? this.nbrDiffJour,
+        pourcentReduc: pourcentReduc ?? this.pourcentReduc);
   }
 
   CategoryChambreSaveOrUpdateDto copyWithWrapped(
@@ -8009,7 +8072,9 @@ extension $CategoryChambreSaveOrUpdateDtoExtension
       Wrapped<int?>? idCreateur,
       Wrapped<String>? description,
       Wrapped<String>? name,
-      Wrapped<double?>? price}) {
+      Wrapped<double?>? price,
+      Wrapped<int?>? nbrDiffJour,
+      Wrapped<double?>? pourcentReduc}) {
     return CategoryChambreSaveOrUpdateDto(
         id: (id != null ? id.value : this.id),
         idAgence: (idAgence != null ? idAgence.value : this.idAgence),
@@ -8017,7 +8082,11 @@ extension $CategoryChambreSaveOrUpdateDtoExtension
         description:
             (description != null ? description.value : this.description),
         name: (name != null ? name.value : this.name),
-        price: (price != null ? price.value : this.price));
+        price: (price != null ? price.value : this.price),
+        nbrDiffJour:
+            (nbrDiffJour != null ? nbrDiffJour.value : this.nbrDiffJour),
+        pourcentReduc:
+            (pourcentReduc != null ? pourcentReduc.value : this.pourcentReduc));
   }
 }
 
@@ -11643,8 +11712,8 @@ class MultipartFile {
     this.empty,
     this.size,
     this.inputStream,
-    this.contentType,
     this.originalFilename,
+    this.contentType,
   });
 
   factory MultipartFile.fromJson(Map<String, dynamic> json) =>
@@ -11663,10 +11732,10 @@ class MultipartFile {
   final int? size;
   @JsonKey(name: 'inputStream')
   final InputStream? inputStream;
-  @JsonKey(name: 'contentType')
-  final String? contentType;
   @JsonKey(name: 'originalFilename')
   final String? originalFilename;
+  @JsonKey(name: 'contentType')
+  final String? contentType;
   static const fromJsonFactory = _$MultipartFileFromJson;
 
   @override
@@ -11684,12 +11753,12 @@ class MultipartFile {
             (identical(other.inputStream, inputStream) ||
                 const DeepCollectionEquality()
                     .equals(other.inputStream, inputStream)) &&
-            (identical(other.contentType, contentType) ||
-                const DeepCollectionEquality()
-                    .equals(other.contentType, contentType)) &&
             (identical(other.originalFilename, originalFilename) ||
                 const DeepCollectionEquality()
-                    .equals(other.originalFilename, originalFilename)));
+                    .equals(other.originalFilename, originalFilename)) &&
+            (identical(other.contentType, contentType) ||
+                const DeepCollectionEquality()
+                    .equals(other.contentType, contentType)));
   }
 
   @override
@@ -11702,8 +11771,8 @@ class MultipartFile {
       const DeepCollectionEquality().hash(empty) ^
       const DeepCollectionEquality().hash(size) ^
       const DeepCollectionEquality().hash(inputStream) ^
-      const DeepCollectionEquality().hash(contentType) ^
       const DeepCollectionEquality().hash(originalFilename) ^
+      const DeepCollectionEquality().hash(contentType) ^
       runtimeType.hashCode;
 }
 
@@ -11714,16 +11783,16 @@ extension $MultipartFileExtension on MultipartFile {
       bool? empty,
       int? size,
       InputStream? inputStream,
-      String? contentType,
-      String? originalFilename}) {
+      String? originalFilename,
+      String? contentType}) {
     return MultipartFile(
         name: name ?? this.name,
         bytes: bytes ?? this.bytes,
         empty: empty ?? this.empty,
         size: size ?? this.size,
         inputStream: inputStream ?? this.inputStream,
-        contentType: contentType ?? this.contentType,
-        originalFilename: originalFilename ?? this.originalFilename);
+        originalFilename: originalFilename ?? this.originalFilename,
+        contentType: contentType ?? this.contentType);
   }
 
   MultipartFile copyWithWrapped(
@@ -11732,8 +11801,8 @@ extension $MultipartFileExtension on MultipartFile {
       Wrapped<bool?>? empty,
       Wrapped<int?>? size,
       Wrapped<InputStream?>? inputStream,
-      Wrapped<String?>? contentType,
-      Wrapped<String?>? originalFilename}) {
+      Wrapped<String?>? originalFilename,
+      Wrapped<String?>? contentType}) {
     return MultipartFile(
         name: (name != null ? name.value : this.name),
         bytes: (bytes != null ? bytes.value : this.bytes),
@@ -11741,11 +11810,11 @@ extension $MultipartFileExtension on MultipartFile {
         size: (size != null ? size.value : this.size),
         inputStream:
             (inputStream != null ? inputStream.value : this.inputStream),
-        contentType:
-            (contentType != null ? contentType.value : this.contentType),
         originalFilename: (originalFilename != null
             ? originalFilename.value
-            : this.originalFilename));
+            : this.originalFilename),
+        contentType:
+            (contentType != null ? contentType.value : this.contentType));
   }
 }
 
@@ -13227,6 +13296,11 @@ class ReservationAfficheDto {
     this.id,
     this.idAgence,
     this.idCreateur,
+    this.creationDate,
+    this.lastModifiedDate,
+    this.email,
+    this.mobile,
+    this.username,
     this.idAppartementdDto,
     this.dateDebut,
     this.dateFin,
@@ -13248,6 +13322,11 @@ class ReservationAfficheDto {
     this.nmbreHomme,
     this.nmbreFemme,
     this.nmbrEnfant,
+    this.descriptionCategori,
+    this.nameCategori,
+    this.priceCategori,
+    this.nbrDiffJourCategori,
+    this.pourcentReducCategori,
   });
 
   factory ReservationAfficheDto.fromJson(Map<String, dynamic> json) =>
@@ -13262,6 +13341,16 @@ class ReservationAfficheDto {
   final int? idAgence;
   @JsonKey(name: 'idCreateur')
   final int? idCreateur;
+  @JsonKey(name: 'creationDate')
+  final int? creationDate;
+  @JsonKey(name: 'lastModifiedDate')
+  final int? lastModifiedDate;
+  @JsonKey(name: 'email')
+  final String? email;
+  @JsonKey(name: 'mobile')
+  final String? mobile;
+  @JsonKey(name: 'username')
+  final String? username;
   @JsonKey(name: 'idAppartementdDto')
   final int? idAppartementdDto;
   @JsonKey(name: 'dateDebut', toJson: _dateToJson)
@@ -13304,6 +13393,16 @@ class ReservationAfficheDto {
   final int? nmbreFemme;
   @JsonKey(name: 'nmbrEnfant')
   final int? nmbrEnfant;
+  @JsonKey(name: 'descriptionCategori')
+  final String? descriptionCategori;
+  @JsonKey(name: 'nameCategori')
+  final String? nameCategori;
+  @JsonKey(name: 'priceCategori')
+  final double? priceCategori;
+  @JsonKey(name: 'nbrDiffJourCategori')
+  final int? nbrDiffJourCategori;
+  @JsonKey(name: 'pourcentReducCategori')
+  final double? pourcentReducCategori;
   static const fromJsonFactory = _$ReservationAfficheDtoFromJson;
 
   @override
@@ -13318,6 +13417,19 @@ class ReservationAfficheDto {
             (identical(other.idCreateur, idCreateur) ||
                 const DeepCollectionEquality()
                     .equals(other.idCreateur, idCreateur)) &&
+            (identical(other.creationDate, creationDate) ||
+                const DeepCollectionEquality()
+                    .equals(other.creationDate, creationDate)) &&
+            (identical(other.lastModifiedDate, lastModifiedDate) ||
+                const DeepCollectionEquality()
+                    .equals(other.lastModifiedDate, lastModifiedDate)) &&
+            (identical(other.email, email) ||
+                const DeepCollectionEquality().equals(other.email, email)) &&
+            (identical(other.mobile, mobile) ||
+                const DeepCollectionEquality().equals(other.mobile, mobile)) &&
+            (identical(other.username, username) ||
+                const DeepCollectionEquality()
+                    .equals(other.username, username)) &&
             (identical(other.idAppartementdDto, idAppartementdDto) ||
                 const DeepCollectionEquality()
                     .equals(other.idAppartementdDto, idAppartementdDto)) &&
@@ -13357,18 +13469,19 @@ class ReservationAfficheDto {
             (identical(other.idBienImmobilier, idBienImmobilier) ||
                 const DeepCollectionEquality()
                     .equals(other.idBienImmobilier, idBienImmobilier)) &&
-            (identical(other.idLocataire, idLocataire) ||
-                const DeepCollectionEquality()
-                    .equals(other.idLocataire, idLocataire)) &&
-            (identical(other.codeAbrvBienImmobilier, codeAbrvBienImmobilier) ||
-                const DeepCollectionEquality().equals(
-                    other.codeAbrvBienImmobilier, codeAbrvBienImmobilier)) &&
+            (identical(other.idLocataire, idLocataire) || const DeepCollectionEquality().equals(other.idLocataire, idLocataire)) &&
+            (identical(other.codeAbrvBienImmobilier, codeAbrvBienImmobilier) || const DeepCollectionEquality().equals(other.codeAbrvBienImmobilier, codeAbrvBienImmobilier)) &&
             (identical(other.advancePayment, advancePayment) || const DeepCollectionEquality().equals(other.advancePayment, advancePayment)) &&
             (identical(other.remainingPayment, remainingPayment) || const DeepCollectionEquality().equals(other.remainingPayment, remainingPayment)) &&
             (identical(other.soldReservation, soldReservation) || const DeepCollectionEquality().equals(other.soldReservation, soldReservation)) &&
             (identical(other.nmbreHomme, nmbreHomme) || const DeepCollectionEquality().equals(other.nmbreHomme, nmbreHomme)) &&
             (identical(other.nmbreFemme, nmbreFemme) || const DeepCollectionEquality().equals(other.nmbreFemme, nmbreFemme)) &&
-            (identical(other.nmbrEnfant, nmbrEnfant) || const DeepCollectionEquality().equals(other.nmbrEnfant, nmbrEnfant)));
+            (identical(other.nmbrEnfant, nmbrEnfant) || const DeepCollectionEquality().equals(other.nmbrEnfant, nmbrEnfant)) &&
+            (identical(other.descriptionCategori, descriptionCategori) || const DeepCollectionEquality().equals(other.descriptionCategori, descriptionCategori)) &&
+            (identical(other.nameCategori, nameCategori) || const DeepCollectionEquality().equals(other.nameCategori, nameCategori)) &&
+            (identical(other.priceCategori, priceCategori) || const DeepCollectionEquality().equals(other.priceCategori, priceCategori)) &&
+            (identical(other.nbrDiffJourCategori, nbrDiffJourCategori) || const DeepCollectionEquality().equals(other.nbrDiffJourCategori, nbrDiffJourCategori)) &&
+            (identical(other.pourcentReducCategori, pourcentReducCategori) || const DeepCollectionEquality().equals(other.pourcentReducCategori, pourcentReducCategori)));
   }
 
   @override
@@ -13379,6 +13492,11 @@ class ReservationAfficheDto {
       const DeepCollectionEquality().hash(id) ^
       const DeepCollectionEquality().hash(idAgence) ^
       const DeepCollectionEquality().hash(idCreateur) ^
+      const DeepCollectionEquality().hash(creationDate) ^
+      const DeepCollectionEquality().hash(lastModifiedDate) ^
+      const DeepCollectionEquality().hash(email) ^
+      const DeepCollectionEquality().hash(mobile) ^
+      const DeepCollectionEquality().hash(username) ^
       const DeepCollectionEquality().hash(idAppartementdDto) ^
       const DeepCollectionEquality().hash(dateDebut) ^
       const DeepCollectionEquality().hash(dateFin) ^
@@ -13400,6 +13518,11 @@ class ReservationAfficheDto {
       const DeepCollectionEquality().hash(nmbreHomme) ^
       const DeepCollectionEquality().hash(nmbreFemme) ^
       const DeepCollectionEquality().hash(nmbrEnfant) ^
+      const DeepCollectionEquality().hash(descriptionCategori) ^
+      const DeepCollectionEquality().hash(nameCategori) ^
+      const DeepCollectionEquality().hash(priceCategori) ^
+      const DeepCollectionEquality().hash(nbrDiffJourCategori) ^
+      const DeepCollectionEquality().hash(pourcentReducCategori) ^
       runtimeType.hashCode;
 }
 
@@ -13408,6 +13531,11 @@ extension $ReservationAfficheDtoExtension on ReservationAfficheDto {
       {int? id,
       int? idAgence,
       int? idCreateur,
+      int? creationDate,
+      int? lastModifiedDate,
+      String? email,
+      String? mobile,
+      String? username,
       int? idAppartementdDto,
       DateTime? dateDebut,
       DateTime? dateFin,
@@ -13428,11 +13556,21 @@ extension $ReservationAfficheDtoExtension on ReservationAfficheDto {
       double? soldReservation,
       int? nmbreHomme,
       int? nmbreFemme,
-      int? nmbrEnfant}) {
+      int? nmbrEnfant,
+      String? descriptionCategori,
+      String? nameCategori,
+      double? priceCategori,
+      int? nbrDiffJourCategori,
+      double? pourcentReducCategori}) {
     return ReservationAfficheDto(
         id: id ?? this.id,
         idAgence: idAgence ?? this.idAgence,
         idCreateur: idCreateur ?? this.idCreateur,
+        creationDate: creationDate ?? this.creationDate,
+        lastModifiedDate: lastModifiedDate ?? this.lastModifiedDate,
+        email: email ?? this.email,
+        mobile: mobile ?? this.mobile,
+        username: username ?? this.username,
         idAppartementdDto: idAppartementdDto ?? this.idAppartementdDto,
         dateDebut: dateDebut ?? this.dateDebut,
         dateFin: dateFin ?? this.dateFin,
@@ -13455,13 +13593,24 @@ extension $ReservationAfficheDtoExtension on ReservationAfficheDto {
         soldReservation: soldReservation ?? this.soldReservation,
         nmbreHomme: nmbreHomme ?? this.nmbreHomme,
         nmbreFemme: nmbreFemme ?? this.nmbreFemme,
-        nmbrEnfant: nmbrEnfant ?? this.nmbrEnfant);
+        nmbrEnfant: nmbrEnfant ?? this.nmbrEnfant,
+        descriptionCategori: descriptionCategori ?? this.descriptionCategori,
+        nameCategori: nameCategori ?? this.nameCategori,
+        priceCategori: priceCategori ?? this.priceCategori,
+        nbrDiffJourCategori: nbrDiffJourCategori ?? this.nbrDiffJourCategori,
+        pourcentReducCategori:
+            pourcentReducCategori ?? this.pourcentReducCategori);
   }
 
   ReservationAfficheDto copyWithWrapped(
       {Wrapped<int?>? id,
       Wrapped<int?>? idAgence,
       Wrapped<int?>? idCreateur,
+      Wrapped<int?>? creationDate,
+      Wrapped<int?>? lastModifiedDate,
+      Wrapped<String?>? email,
+      Wrapped<String?>? mobile,
+      Wrapped<String?>? username,
       Wrapped<int?>? idAppartementdDto,
       Wrapped<DateTime?>? dateDebut,
       Wrapped<DateTime?>? dateFin,
@@ -13482,11 +13631,24 @@ extension $ReservationAfficheDtoExtension on ReservationAfficheDto {
       Wrapped<double?>? soldReservation,
       Wrapped<int?>? nmbreHomme,
       Wrapped<int?>? nmbreFemme,
-      Wrapped<int?>? nmbrEnfant}) {
+      Wrapped<int?>? nmbrEnfant,
+      Wrapped<String?>? descriptionCategori,
+      Wrapped<String?>? nameCategori,
+      Wrapped<double?>? priceCategori,
+      Wrapped<int?>? nbrDiffJourCategori,
+      Wrapped<double?>? pourcentReducCategori}) {
     return ReservationAfficheDto(
         id: (id != null ? id.value : this.id),
         idAgence: (idAgence != null ? idAgence.value : this.idAgence),
         idCreateur: (idCreateur != null ? idCreateur.value : this.idCreateur),
+        creationDate:
+            (creationDate != null ? creationDate.value : this.creationDate),
+        lastModifiedDate: (lastModifiedDate != null
+            ? lastModifiedDate.value
+            : this.lastModifiedDate),
+        email: (email != null ? email.value : this.email),
+        mobile: (mobile != null ? mobile.value : this.mobile),
+        username: (username != null ? username.value : this.username),
         idAppartementdDto: (idAppartementdDto != null
             ? idAppartementdDto.value
             : this.idAppartementdDto),
@@ -13535,7 +13697,20 @@ extension $ReservationAfficheDtoExtension on ReservationAfficheDto {
             : this.soldReservation),
         nmbreHomme: (nmbreHomme != null ? nmbreHomme.value : this.nmbreHomme),
         nmbreFemme: (nmbreFemme != null ? nmbreFemme.value : this.nmbreFemme),
-        nmbrEnfant: (nmbrEnfant != null ? nmbrEnfant.value : this.nmbrEnfant));
+        nmbrEnfant: (nmbrEnfant != null ? nmbrEnfant.value : this.nmbrEnfant),
+        descriptionCategori: (descriptionCategori != null
+            ? descriptionCategori.value
+            : this.descriptionCategori),
+        nameCategori:
+            (nameCategori != null ? nameCategori.value : this.nameCategori),
+        priceCategori:
+            (priceCategori != null ? priceCategori.value : this.priceCategori),
+        nbrDiffJourCategori: (nbrDiffJourCategori != null
+            ? nbrDiffJourCategori.value
+            : this.nbrDiffJourCategori),
+        pourcentReducCategori: (pourcentReducCategori != null
+            ? pourcentReducCategori.value
+            : this.pourcentReducCategori));
   }
 }
 

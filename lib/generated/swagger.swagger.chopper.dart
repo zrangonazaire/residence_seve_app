@@ -2098,16 +2098,16 @@ class _$Swagger extends Swagger {
   }
 
   @override
-  Future<Response<List<ReservationSaveOrUpdateDto>>>
-      _gestimowebApiV1ReservationAllGet() {
-    final Uri $url = Uri.parse('gestimoweb/api/v1/reservation/all');
+  Future<Response<List<ReservationAfficheDto>>>
+      _gestimowebApiV1ReservationAllreservationGet() {
+    final Uri $url = Uri.parse('gestimoweb/api/v1/reservation/allreservation');
     final Request $request = Request(
       'GET',
       $url,
       client.baseUrl,
     );
-    return client.send<List<ReservationSaveOrUpdateDto>,
-        ReservationSaveOrUpdateDto>($request);
+    return client
+        .send<List<ReservationAfficheDto>, ReservationAfficheDto>($request);
   }
 
   @override
