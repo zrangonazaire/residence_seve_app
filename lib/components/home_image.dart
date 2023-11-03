@@ -60,14 +60,14 @@ class _HomeImageWidgetState extends State<HomeImageWidget> {
                     onPressed: () {
                       showDialog(
                           context: context,
-                          builder: (ctx) => SaveReservationWidget());
+                          builder: (ctx) => const SaveReservationWidget(appartement: null,));
                     },
-                    child: Text("Réserver"))
+                    child: const Text("Réserver"))
               ],
             ),
             Padding(
               padding: const EdgeInsets.all(4.0),
-              child: Container(
+              child: SizedBox(
                 height: 150,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

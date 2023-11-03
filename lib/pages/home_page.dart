@@ -16,20 +16,14 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   @override
-  void initState() {
-   
+  Widget build(BuildContext context) {
     context
         .read<AppartementBloc>()
         .add(ListeAppartementMeubleEvent(idAgence: 1));
-         super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
-    //    backgroundColor: Colors.red,
+        //    backgroundColor: Colors.red,
         appBar: const MenuWidget(),
         body: SingleChildScrollView(
           child: Column(
@@ -39,7 +33,7 @@ class _HomePageState extends State<HomePage> {
               Container(
                 padding: const EdgeInsets.all(10),
                 width: screenSize.width,
-                height: screenSize.height*0.7,
+                height: screenSize.height * 0.7,
                 child: BlocBuilder<AppartementBloc, AppartementState>(
                     builder: (context, state) {
                   if (state is ListeAppartementMeubleErrorState) {
@@ -50,16 +44,19 @@ class _HomePageState extends State<HomePage> {
                     );
                   } else if (state is ListeAppartementMeubleLoadedState) {
                     var appats = state.listAppartements;
-                  //  print("THE DATA IS $appats");
+                   print("THE DATA IS $appats");
                     return appats.isEmpty
                         ? const Text("Pas de données")
-                        : MasonryGridView.builder(
-                            itemCount: appats.length,
-                            gridDelegate:
-                                SliverSimpleGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: (screenSize.width < 800) ? 1 :3 ),
-                            itemBuilder: (context, index) =>
-                                ResidenceCard(appats: appats[index]));
+                        : ListView.builder(
+                          scrollDirection: Axis.vertical,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: const EdgeInsets.all(12.0),
+                                child: ResidenceCard(appats: appats[index]),
+                              );
+                            },
+                            
+                            itemCount: appats.length);
                   }
                   return Text("Erreur inconue".toUpperCase());
                 }),

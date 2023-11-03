@@ -37,7 +37,7 @@ class ListImagesParAppartementInitialState extends AppartementState {
 }
 
 class ListImagesParAppartementLoadedState extends AppartementState {
-  final List<dynamic> imagesparAppartements;
+   List<dynamic> imagesparAppartements;  
   ListImagesParAppartementLoadedState({required this.imagesparAppartements});
 }
 

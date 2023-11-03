@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
+import 'package:chopper/src/response.dart';
 import 'package:residence_seve_app/blocs/appartement_event.dart';
 import 'package:residence_seve_app/blocs/appartement_state.dart';
 import 'package:residence_seve_app/generated/swagger.swagger.dart';
@@ -32,17 +33,22 @@ class ListeImagesBloc extends Bloc<AppartementEvent, AppartementState> {
       emit(ListImagesParAppartementInitialState());
 
       try {
-        var listesDesAppartements = await seveSwagger
+   
+        Response<List<ImageDataDto>> listesDesAppartements = await seveSwagger
             .gestimowebApiV1ImageImagesbybienIdGet(id: event.idBien);
-        var listesDesAppartementsEmit = [];
-
+        
+ 
         if (listesDesAppartements.isSuccessful) {
-          listesDesAppartementsEmit =
-              json.decode(listesDesAppartements.bodyString);
+          // listesDesAppartementsEmit =
+          //     json.decode(listesDesAppartements.bodyString);
+                emit(ListImagesParAppartementLoadedState(
+            imagesparAppartements: json.decode(listesDesAppartements.bodyString)));
+          
+        }else{
+  emit(ListImagesParAppartementErreurState(
+            erreurMessage: "Erreur inconnue."));
         }
-        emit(ListImagesParAppartementLoadedState(
-            imagesparAppartements: listesDesAppartementsEmit));
-      } catch (e) {
+        } catch (e) {
         emit(ListImagesParAppartementErreurState(
             erreurMessage: e.toString().toUpperCase()));
       }
@@ -56,7 +62,7 @@ class AppartementBloc extends Bloc<AppartementEvent, AppartementState> {
     on((ListeAppartementEvent event, emit) async {
       emit(ListeAppartementInitialState());
       try {
-        var list = await seveSwagger.gestimowebApiV1AppartementAllIdGet(id: 1);
+        var list = await seveSwagger.gestimowebApiV1AppartementAllmeubleIdGet(id: 1);
         var listAppartEmit = [];
         if (list.isSuccessful) {
           listAppartEmit = json.decode(list.bodyString);

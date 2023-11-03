@@ -28,10 +28,7 @@ List _isHovering = [
 ];
 
 class _PageReservionState extends State<PageReservion> {
-  String _selectedDate = '';
-  String _dateCount = '';
-  String _range = '';
-  String _rangeCount = '';
+  var _range = '';
 
   /// The method for [DateRangePickerSelectionChanged] callback, which will be
   /// called whenever a selection changed on the date picker widget.
@@ -54,11 +51,8 @@ class _PageReservionState extends State<PageReservion> {
             // ignore: lines_longer_than_80_chars
             ' Départ ${DateFormat('dd/MM/yyyy').format(args.value.endDate ?? args.value.startDate)}';
       } else if (args.value is DateTime) {
-        _selectedDate = args.value.toString();
       } else if (args.value is List<DateTime>) {
-        _dateCount = args.value.length.toString();
       } else {
-        _rangeCount = args.value.length.toString();
       }
     });
   }
